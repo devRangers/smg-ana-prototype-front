@@ -22,7 +22,7 @@ function CameraComp() {
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("imageURL", file);
-    const res = await axios.post("http://localhost:5005/photos", formData, {
+    const res = await axios.post("https://ana-prototype-back.herokuapp.com/photos", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
