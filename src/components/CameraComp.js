@@ -30,7 +30,7 @@ function CameraComp() {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     setResult(res.data.species);
   };
@@ -39,7 +39,7 @@ function CameraComp() {
     if (result) {
       async function getList() {
         const res = await axios.get(
-          `https://ana-prototype-back.herokuapp.com/photos/${result}`
+          `https://ana-prototype-back.herokuapp.com/photos/${result}`,
         );
         setList(res.data);
       }
@@ -49,7 +49,9 @@ function CameraComp() {
 
   return (
     <div className="flex items-center justify-center flex-col">
-      <h1>사진 업로드</h1>
+      <h1 className="border-gray-800 text-2xl font-bold mb-4 mt-4">
+        사진 업로드
+      </h1>
       <input
         accept="image/*"
         id="icon-button-file"
@@ -58,10 +60,10 @@ function CameraComp() {
         onChange={(e) => handleCapture(e.target)}
         className="hidden"
       />
-      <div className="w-20 h-6 bg-camera-color rounded ">
+      <div className="w-20 h-6 bg-camera-color rounded mb-4">
         <label
           htmlFor="icon-button-file"
-          className=" text-white w-full h-full cursor-pointer flex justify-center items-center"
+          className=" text-white w-full h-full cursor-pointer flex justify-center items-center "
         >
           <AiFillCamera />
         </label>
@@ -78,39 +80,78 @@ function CameraComp() {
           color: "white",
           cursor: "pointer",
           border: "none",
-          margin: "0 10px",
+          margin: "10px",
         }}
       >
         결과 가져오기
       </button>
 
-      {result && <h1>종 : {result}</h1>}
+      {result && (
+        <h1 className="border-gray-800 text-2xl font-bold mb-4 mt-4">
+          종 : {result}
+        </h1>
+      )}
 
       {list.length > 0 && (
-        <table border="1">
-          <thead>
-            <tr>
-              <th>종</th>
-              <th>이름</th>
-              <th>발견 위치</th>
-              <th>특징</th>
-              <th>사진</th>
-            </tr>
-          </thead>
-          <tbody>
-            {list.map((item, index) => (
-              <tr key={`table ${index}`}>
-                <td>{item.species}</td>
-                <td>{item.name}</td>
-                <td>{item.location}</td>
-                <td>{item.feature}</td>
-                <td>
-                  <img src={item.imageURL} alt="animal" width="200" />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="min-h-screen  flex justify-center items-center flex-col">
+          {list.map((item, index) => (
+            <div
+              className="max-w-2xl bg-white border-2 border-gray-800 p-5 rounded-md tracking-wide shadow-lg mb-4"
+              key={`table ${index}`}
+            >
+              <h4 className="text-2xl font-bold mb-2 text-center">
+                {item.name}
+              </h4>
+
+              <img
+                alt="animal"
+                className="w-45 rounded-md border-2"
+                src={item.imageURL}
+                width="100%"
+              />
+
+              <div className="flex flex-col ml-5">
+                <ul className="list-disc mt-2">
+                  <li>
+                    <p>
+                      <span className="text-lg font-semibold">종 </span> <br />{" "}
+                      {item.species}
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <span className="text-lg font-semibold">발견 위치 </span>
+                      <br /> {item.location}
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <span className="text-lg font-semibold">특징 </span>
+                      <br />
+                      {item.feature}
+                    </p>
+                  </li>
+                  <li>
+                    {" "}
+                    <button
+                      style={{
+                        padding: "6px 25px",
+                        backgroundColor: "#ffbf69",
+                        borderRadius: "4px",
+                        color: "white",
+                        cursor: "pointer",
+                        border: "none",
+                        margin: "10px",
+                      }}
+                    >
+                      연락하기
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
